@@ -1,6 +1,6 @@
 import { useFetch } from "@mantine/hooks";
 import { ActionIcon, Table, TableData } from "@mantine/core";
-import { IconCheck, IconEye, IconX } from "@tabler/icons-react";
+import { IconCheck, IconPencil, IconX } from "@tabler/icons-react";
 import { Music } from "../musics";
 import Link from "next/link";
 
@@ -29,9 +29,10 @@ export function Playlists() {
           href={`/playlist/${playlist._id}`}
           component={Link}
           variant="subtle"
-          aria-label="Settings"
+          aria-label="edit"
+          color="violet"
         >
-          <IconEye stroke={1.5} />
+          <IconPencil stroke={1.5} />
         </ActionIcon>
       );
       return [playlist.name, playlist.createdBy, publicIcon, viewButton];

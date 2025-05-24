@@ -27,7 +27,6 @@ export default function PlaylistPage({
   });
 
   async function handleSubmit(updatedPlaylist: Playlist) {
-    console.log(updatedPlaylist);
     try {
       setIsLoading(true);
       await fetch(`http://localhost:3000/playlists/${playlistId}`, {
