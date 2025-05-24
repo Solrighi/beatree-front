@@ -20,7 +20,7 @@ export function MainLayout({ children }: PropsWithChildren) {
     >
       <AppShell.Header>
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-        <div>Logo</div>
+        Logo
       </AppShell.Header>
 
       <AppShell.Navbar p="md">

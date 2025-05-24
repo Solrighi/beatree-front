@@ -44,10 +44,11 @@ export function ModalAddToPlaylist({
       title="Selecione a Playlist"
       centered
     >
-      <Stack>
+      <Stack gap={0}>
         {data?.map((playlist) => {
           return (
             <Button
+              variant="subtle"
               loading={isLoading}
               onClick={() => handleAddMusic(playlist._id)}
               key={playlist._id}

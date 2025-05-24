@@ -1,10 +1,11 @@
 "use client";
 
 import { Musics } from "@/components/musics";
+import { PlaylistForm } from "@/components/playlistForm";
 import { Playlist } from "@/components/playlists";
-import { Button, Checkbox, Grid, Group, Stack, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Grid } from "@mantine/core";
 import { useFetch } from "@mantine/hooks";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function PlaylistPage({
@@ -14,6 +15,7 @@ export default function PlaylistPage({
 }) {
   const [playlistId, setPlaylistId] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const { data: playlistData } = useFetch<Playlist>(
     `http://localhost:3000/playlists/${playlistId}`,
@@ -21,10 +23,6 @@ export default function PlaylistPage({
       autoInvoke: !!playlistId,
     }
   );
-
-  const form = useForm<Playlist>({
-    mode: "uncontrolled",
-  });
 
   async function handleSubmit(updatedPlaylist: Playlist) {
     try {
@@ -36,19 +34,12 @@ export default function PlaylistPage({
         },
         body: JSON.stringify(updatedPlaylist),
       });
+      router.back();
     } catch {
     } finally {
       setIsLoading(false);
     }
   }
-
-  useEffect(() => {
-    form.setValues({
-      name: playlistData?.name,
-      createdBy: playlistData?.createdBy,
-      isPublic: playlistData?.isPublic,
-    });
-  }, [playlistData]);
 
   useEffect(() => {
     params.then(({ id }) => setPlaylistId(id));
@@ -57,35 +48,11 @@ export default function PlaylistPage({
   return (
     <Grid gutter={"xl"}>
       <Grid.Col span={{ base: 12, md: 3 }}>
-        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-          <Stack>
-            <TextInput
-              withAsterisk
-              label="Nome"
-              placeholder="Nome da playlist"
-              key={form.key("name")}
-              {...form.getInputProps("name")}
-            />
-            <TextInput
-              withAsterisk
-              label="Criado por"
-              placeholder="Quem criou a playlist"
-              key={form.key("createdBy")}
-              {...form.getInputProps("createdBy")}
-            />
-            <Checkbox
-              labelPosition="left"
-              label="Esta playlist é pública?"
-              key={form.key("isPublic")}
-              {...form.getInputProps("isPublic", { type: "checkbox" })}
-            />
-            <Group justify="center" mt="md">
-              <Button type="submit" color="green" loading={isLoading}>
-                Salvar
-              </Button>
-            </Group>
-          </Stack>
-        </form>
+        <PlaylistForm
+          handleSubmit={handleSubmit}
+          playlistData={playlistData}
+          isLoading={isLoading}
+        />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 9 }}>
         {playlistData?.musics && <Musics musics={playlistData?.musics} />}
