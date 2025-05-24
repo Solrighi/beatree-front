@@ -8,12 +8,20 @@ export interface Music {
   year: number;
 }
 
-export function Musics() {
-  const { data } = useFetch<Music[]>("http://localhost:3000/musics");
+interface Props {
+  musics?: Music[];
+}
+
+export function Musics({ musics }: Props) {
+  const { data } = useFetch<Music[]>("http://localhost:3000/musics", {
+    autoInvoke: !musics?.length,
+  });
+
+  const fetchedMusics = musics || data;
 
   const tableData: TableData = {
     head: ["Nome", "Artista", "Album", "Ano"],
-    body: data?.map((music) => {
+    body: fetchedMusics?.map((music) => {
       return [music.name, music.artist, music.album, music.year];
     }),
   };
