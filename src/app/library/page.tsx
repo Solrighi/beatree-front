@@ -9,7 +9,7 @@ export default function LibraryPage() {
       <Tabs.List>
         <Tabs.Tab value="playlists">Playlists</Tabs.Tab>
         <Tabs.Tab value="musics" color="blue">
-          Musicas
+          Músicas
         </Tabs.Tab>
       </Tabs.List>
 

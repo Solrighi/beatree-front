@@ -1,7 +1,7 @@
 import { Button, Modal, Stack } from "@mantine/core";
 import { useFetch } from "@mantine/hooks";
 import { Playlist } from "../playlists";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   selectedMusicId: string;
@@ -14,7 +14,10 @@ export function ModalAddToPlaylist({
   isOpen,
   onClose,
 }: Props) {
-  const { data } = useFetch<Playlist[]>("http://localhost:3000/playlists");
+  const { data, refetch } = useFetch<Playlist[]>(
+    "http://localhost:3000/playlists",
+    { autoInvoke: false }
+  );
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -36,6 +39,11 @@ export function ModalAddToPlaylist({
       setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (!isOpen) return;
+    refetch();
+  }, [isOpen]);
 
   return (
     <Modal
