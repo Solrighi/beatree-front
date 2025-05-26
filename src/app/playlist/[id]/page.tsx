@@ -17,7 +17,7 @@ export default function PlaylistPage({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  const { data: playlistData } = useFetch<Playlist>(
+  const { data: playlistData, refetch } = useFetch<Playlist>(
     `http://localhost:3000/playlists/${playlistId}`,
     {
       autoInvoke: !!playlistId,
@@ -40,6 +40,22 @@ export default function PlaylistPage({
       setIsLoading(false);
     }
   }
+  async function handleRemoveMusic(musicId: string) {
+    try {
+      setIsLoading(true);
+      await fetch(`http://localhost:3000/playlists/${playlistId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ids: [musicId] }),
+      });
+      refetch();
+    } catch {
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
     params.then(({ id }) => setPlaylistId(id));
@@ -55,7 +71,13 @@ export default function PlaylistPage({
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 9 }}>
-        {playlistData?.musics && <Musics musics={playlistData?.musics} />}
+        {playlistData?.musics && (
+          <Musics
+            musics={playlistData?.musics}
+            onRemove={handleRemoveMusic}
+            isPlaylistMusics={true}
+          />
+        )}
       </Grid.Col>
     </Grid>
   );
