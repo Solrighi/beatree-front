@@ -6,6 +6,8 @@ import {
   MantineProvider,
 } from "@mantine/core";
 import { MainLayout } from "@/components/mainLayout";
+import "@mantine/notifications/styles.css";
+import { Notifications } from "@mantine/notifications";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,6 +26,7 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider defaultColorScheme="dark">
+          <Notifications />
           <MainLayout>{children}</MainLayout>
         </MantineProvider>
       </body>

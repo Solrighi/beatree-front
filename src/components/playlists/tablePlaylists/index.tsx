@@ -1,16 +1,20 @@
 import { useDisclosure, useFetch } from "@mantine/hooks";
 import { ActionIcon, Button, Group, Table, TableData } from "@mantine/core";
 import {
+  IconBug,
   IconCheck,
+  IconCircleMinus,
   IconPencil,
   IconPlus,
   IconTrashX,
   IconX,
 } from "@tabler/icons-react";
-import { Music } from "../musics";
+import { Music } from "../../musics/tableMusics";
 import Link from "next/link";
 import { CreatePlaylist } from "../createPlaylist";
 import { useState } from "react";
+import { PlaylistNotifications } from "@/constants/notifications";
+import { notifications } from "@mantine/notifications";
 
 export interface Playlist {
   _id: string;
@@ -39,8 +43,20 @@ export function Playlists() {
       });
       refetch();
     } catch {
+      notifications.show({
+        icon: <IconBug />,
+        message: PlaylistNotifications.ERROR_GENERIC,
+        color: "red",
+        autoClose: 5000,
+      });
     } finally {
       setIsLoading(false);
+      notifications.show({
+        icon: <IconCircleMinus />,
+        message: PlaylistNotifications.DELETED,
+        color: "teal",
+        autoClose: 5000,
+      });
     }
   }
 

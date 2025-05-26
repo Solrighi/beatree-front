@@ -1,7 +1,10 @@
 import { Button, Modal, Stack } from "@mantine/core";
 import { useFetch } from "@mantine/hooks";
-import { Playlist } from "../playlists";
+import { Playlist } from "../tablePlaylists";
 import { useEffect, useState } from "react";
+import { IconBookmarkPlus, IconBug } from "@tabler/icons-react";
+import { PlaylistNotifications } from "@/constants/notifications";
+import { notifications } from "@mantine/notifications";
 
 interface Props {
   selectedMusicId: string;
@@ -35,8 +38,20 @@ export function ModalAddToPlaylist({
       );
       onClose();
     } catch {
+      notifications.show({
+        icon: <IconBug />,
+        message: PlaylistNotifications.ERROR_GENERIC,
+        color: "red",
+        autoClose: 5000,
+      });
     } finally {
       setIsLoading(false);
+      notifications.show({
+        icon: <IconBookmarkPlus />,
+        message: PlaylistNotifications.MUSIC_ON_PLAYLIST_CREATED,
+        color: "teal",
+        autoClose: 5000,
+      });
     }
   }
 
