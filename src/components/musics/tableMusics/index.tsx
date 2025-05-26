@@ -7,8 +7,10 @@ import {
   Table,
   TableData,
 } from "@mantine/core";
-import { ModalAddToPlaylist } from "../modalAddToPlaylist";
+import { ModalAddToPlaylist } from "../../playlists/modalAddToPlaylist";
 import {
+  IconBug,
+  IconCircleDashedX,
   IconCopyX,
   IconDotsVertical,
   IconPencil,
@@ -17,6 +19,8 @@ import {
 } from "@tabler/icons-react";
 import { useState } from "react";
 import { CreateMusic } from "../createMusic";
+import { MusicNotifications } from "@/constants/notifications";
+import { notifications } from "@mantine/notifications";
 
 export interface Music {
   _id: string;
@@ -46,15 +50,32 @@ export function Musics({ isPlaylistMusics, musics, onRemove }: Props) {
 
   async function deleteMusic(musicId: string) {
     try {
-      await fetch(`http://localhost:3000/musics`, {
+      const response = await fetch(`http://localhost:3000/musics`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ ids: [musicId] }),
       });
+      if (!response.ok) {
+        throw new Error();
+      }
       refetch();
-    } catch {}
+
+      notifications.show({
+        icon: <IconCircleDashedX />,
+        message: MusicNotifications.DELETED,
+        color: "teal",
+        autoClose: 5000,
+      });
+    } catch {
+      notifications.show({
+        icon: <IconBug />,
+        message: MusicNotifications.ERROR_GENERIC,
+        color: "red",
+        autoClose: 5000,
+      });
+    }
   }
 
   const tableData: TableData = {

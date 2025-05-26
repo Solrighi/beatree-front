@@ -1,6 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Beatree Frontend
 
-## Getting Started
+Beatree is a modern web application built with Next.js 15, React 19, and TypeScript. The application provides a user-friendly interface for managing music playlists and library.
+
+## Features
+
+- Modern UI built with Mantine Design System (@mantine/core)
+- Interactive form handling with @mantine/form
+- Reusable components for consistent UI
+- Responsive layout with Next.js App Router
+- TypeScript for type safety
+- Optimized performance with Turbopack
+
+## Project Structure
+
+```
+src/
+├── app/              # Next.js App Router files
+│   ├── layout.tsx   # Root layout component
+│   ├── page.tsx     # Main page component
+│   ├── library/     # Library-related pages
+│   └── playlist/    # Playlist-related pages
+├── components/      # Reusable React components
+└── public/          # Static assets
+```
+
+# Frontend do Beatree
+
+Beatree é uma aplicação web moderna construída com Next.js 15, React 19 e TypeScript. A aplicação oferece uma interface amigável para gerenciar bibliotecas de música e playlists.
+
+## Funcionalidades
+
+- Interface moderna construída com o sistema de design Mantine (@mantine/core)
+- Manipulação interativa de formulários com @mantine/form
+- Componentes reutilizáveis para uma UI consistente
+- Layout responsivo com o Next.js App Router
+- TypeScript para segurança de tipos
+- Desempenho otimizado com Turbopack
+
+## Estrutura do Projeto
+
+```
+src/
+├── app/              # Arquivos do Next.js App Router
+│   ├── layout.tsx   # Componente de layout raiz
+│   ├── page.tsx     # Componente da página principal
+│   ├── library/     # Páginas relacionadas à biblioteca
+│   └── playlist/    # Páginas relacionadas às playlists
+├── components/      # Componentes React reutilizáveis
+└── public/          # Ativos estáticos
+```
+
+## Começando
 
 First, run the development server:
 

@@ -1,5 +1,5 @@
 import { useForm } from "@mantine/form";
-import { Music } from "../musics";
+import { Music } from "../tableMusics";
 import { useEffect } from "react";
 import { Button, Group, NumberInput, Stack, TextInput } from "@mantine/core";
 

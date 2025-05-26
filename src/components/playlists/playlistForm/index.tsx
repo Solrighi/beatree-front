@@ -1,6 +1,6 @@
 import { Stack, TextInput, Checkbox, Group, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { Playlist } from "../playlists";
+import { Playlist } from "../tablePlaylists";
 import { useEffect } from "react";
 
 interface Props {

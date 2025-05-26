@@ -1,7 +1,10 @@
 import { Button, Modal, Stack } from "@mantine/core";
 import { useFetch } from "@mantine/hooks";
-import { Playlist } from "../playlists";
+import { Playlist } from "../tablePlaylists";
 import { useEffect, useState } from "react";
+import { IconBookmarkPlus, IconBug } from "@tabler/icons-react";
+import { PlaylistNotifications } from "@/constants/notifications";
+import { notifications } from "@mantine/notifications";
 
 interface Props {
   selectedMusicId: string;
@@ -24,7 +27,7 @@ export function ModalAddToPlaylist({
   async function handleAddMusic(playlistId: string) {
     try {
       setIsLoading(true);
-      await fetch(
+      const response = await fetch(
         `http://localhost:3000/playlists/${playlistId}/music/${selectedMusicId}`,
         {
           method: "POST",
@@ -33,8 +36,23 @@ export function ModalAddToPlaylist({
           },
         }
       );
+      if (!response.ok) {
+        throw new Error();
+      }
       onClose();
+      notifications.show({
+        icon: <IconBookmarkPlus />,
+        message: PlaylistNotifications.MUSIC_ON_PLAYLIST_CREATED,
+        color: "teal",
+        autoClose: 5000,
+      });
     } catch {
+      notifications.show({
+        icon: <IconBug />,
+        message: PlaylistNotifications.ERROR_GENERIC,
+        color: "red",
+        autoClose: 5000,
+      });
     } finally {
       setIsLoading(false);
     }

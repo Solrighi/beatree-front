@@ -1,6 +1,6 @@
 "use client";
-import { Musics } from "@/components/musics";
-import { Playlists } from "@/components/playlists";
+import { Musics } from "@/components/musics/tableMusics";
+import { Playlists } from "@/components/playlists/tablePlaylists";
 import { Tabs } from "@mantine/core";
 
 export default function LibraryPage() {

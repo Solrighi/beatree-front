@@ -1,10 +1,13 @@
 "use client";
 
-import { Musics } from "@/components/musics";
-import { PlaylistForm } from "@/components/playlistForm";
-import { Playlist } from "@/components/playlists";
+import { Musics } from "@/components/musics/tableMusics";
+import { PlaylistForm } from "@/components/playlists/playlistForm";
+import { Playlist } from "@/components/playlists/tablePlaylists";
+import { PlaylistNotifications } from "@/constants/notifications";
 import { Grid } from "@mantine/core";
 import { useFetch } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { IconBug, IconCircleDashedMinus, IconEdit } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -27,15 +30,35 @@ export default function PlaylistPage({
   async function handleSubmit(updatedPlaylist: Playlist) {
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:3000/playlists/${playlistId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedPlaylist),
-      });
+      const response = await fetch(
+        `http://localhost:3000/playlists/${playlistId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedPlaylist),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
       router.back();
+      notifications.show({
+        icon: <IconEdit />,
+        message: PlaylistNotifications.UPDATED,
+        color: "teal",
+        autoClose: 5000,
+      });
     } catch {
+      notifications.show({
+        icon: <IconBug />,
+        message: PlaylistNotifications.ERROR_GENERIC,
+        color: "red",
+        autoClose: 5000,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -43,15 +66,33 @@ export default function PlaylistPage({
   async function handleRemoveMusic(musicId: string) {
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:3000/playlists/${playlistId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ids: [musicId] }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/playlists/${playlistId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ids: [musicId] }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error();
+      }
       refetch();
+      notifications.show({
+        icon: <IconCircleDashedMinus />,
+        message: PlaylistNotifications.MUSIC_ON_PLAYLIST_DELETED,
+        color: "teal",
+        autoClose: 5000,
+      });
     } catch {
+      notifications.show({
+        icon: <IconBug />,
+        message: PlaylistNotifications.ERROR_GENERIC,
+        color: "red",
+        autoClose: 5000,
+      });
     } finally {
       setIsLoading(false);
     }
