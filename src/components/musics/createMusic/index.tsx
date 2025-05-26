@@ -17,25 +17,29 @@ export function CreateMusic({ isOpen, onClose, musicData }: Props) {
 
   async function createMusic(newMusic: Music) {
     try {
-      await fetch(`http://localhost:3000/musics`, {
+      const response = await fetch(`http://localhost:3000/musics`, {
         method: musicData ? "PATCH" : "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newMusic),
       });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      notifications.show({
+        icon: <IconFilePlus />,
+        message: MusicNotifications.CREATED,
+        color: "teal",
+        autoClose: 5000,
+      });
     } catch {
       notifications.show({
         icon: <IconBug />,
         message: MusicNotifications.ERROR_GENERIC,
         color: "red",
-        autoClose: 5000,
-      });
-    } finally {
-      notifications.show({
-        icon: <IconFilePlus />,
-        message: MusicNotifications.CREATED,
-        color: "teal",
         autoClose: 5000,
       });
     }
@@ -43,25 +47,32 @@ export function CreateMusic({ isOpen, onClose, musicData }: Props) {
 
   async function updateMusic(newMusic: Music) {
     try {
-      await fetch(`http://localhost:3000/musics/${musicData?._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newMusic),
+      const response = await fetch(
+        `http://localhost:3000/musics/${musicData?._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newMusic),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      notifications.show({
+        icon: <IconPencilCheck />,
+        message: MusicNotifications.UPDATED,
+        color: "teal",
+        autoClose: 5000,
       });
     } catch {
       notifications.show({
         icon: <IconBug />,
         message: MusicNotifications.ERROR_GENERIC,
         color: "red",
-        autoClose: 5000,
-      });
-    } finally {
-      notifications.show({
-        icon: <IconPencilCheck />,
-        message: MusicNotifications.UPDATED,
-        color: "teal",
         autoClose: 5000,
       });
     }

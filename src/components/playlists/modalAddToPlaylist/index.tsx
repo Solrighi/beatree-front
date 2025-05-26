@@ -27,7 +27,7 @@ export function ModalAddToPlaylist({
   async function handleAddMusic(playlistId: string) {
     try {
       setIsLoading(true);
-      await fetch(
+      const response = await fetch(
         `http://localhost:3000/playlists/${playlistId}/music/${selectedMusicId}`,
         {
           method: "POST",
@@ -36,7 +36,16 @@ export function ModalAddToPlaylist({
           },
         }
       );
+      if (!response.ok) {
+        throw new Error();
+      }
       onClose();
+      notifications.show({
+        icon: <IconBookmarkPlus />,
+        message: PlaylistNotifications.MUSIC_ON_PLAYLIST_CREATED,
+        color: "teal",
+        autoClose: 5000,
+      });
     } catch {
       notifications.show({
         icon: <IconBug />,
@@ -46,12 +55,6 @@ export function ModalAddToPlaylist({
       });
     } finally {
       setIsLoading(false);
-      notifications.show({
-        icon: <IconBookmarkPlus />,
-        message: PlaylistNotifications.MUSIC_ON_PLAYLIST_CREATED,
-        color: "teal",
-        autoClose: 5000,
-      });
     }
   }
 

@@ -50,26 +50,29 @@ export function Musics({ isPlaylistMusics, musics, onRemove }: Props) {
 
   async function deleteMusic(musicId: string) {
     try {
-      await fetch(`http://localhost:3000/musics`, {
+      const response = await fetch(`http://localhost:3000/musics`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ ids: [musicId] }),
       });
+      if (!response.ok) {
+        throw new Error();
+      }
       refetch();
+
+      notifications.show({
+        icon: <IconCircleDashedX />,
+        message: MusicNotifications.DELETED,
+        color: "teal",
+        autoClose: 5000,
+      });
     } catch {
       notifications.show({
         icon: <IconBug />,
         message: MusicNotifications.ERROR_GENERIC,
         color: "red",
-        autoClose: 5000,
-      });
-    } finally {
-      notifications.show({
-        icon: <IconCircleDashedX />,
-        message: MusicNotifications.DELETED,
-        color: "teal",
         autoClose: 5000,
       });
     }

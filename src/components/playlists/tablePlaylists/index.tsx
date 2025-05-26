@@ -34,14 +34,23 @@ export function Playlists() {
   async function removePlaylist(playlistId: string) {
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:3000/playlists`, {
+      const response = await fetch(`http://localhost:3000/playlists`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ ids: [playlistId] }),
       });
+      if (!response.ok) {
+        throw new Error();
+      }
       refetch();
+      notifications.show({
+        icon: <IconCircleMinus />,
+        message: PlaylistNotifications.DELETED,
+        color: "teal",
+        autoClose: 5000,
+      });
     } catch {
       notifications.show({
         icon: <IconBug />,
@@ -51,12 +60,6 @@ export function Playlists() {
       });
     } finally {
       setIsLoading(false);
-      notifications.show({
-        icon: <IconCircleMinus />,
-        message: PlaylistNotifications.DELETED,
-        color: "teal",
-        autoClose: 5000,
-      });
     }
   }
 

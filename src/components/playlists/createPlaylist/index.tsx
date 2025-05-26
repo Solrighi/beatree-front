@@ -17,14 +17,23 @@ export function CreatePlaylist({ isOpen, onClose }: Props) {
   async function handleSubmit(newPlaylist: Playlist) {
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:3000/playlists`, {
+      const response = await fetch(`http://localhost:3000/playlists`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newPlaylist),
       });
+
+      if (!response.ok) {
+        throw new Error();
+      }
       onClose();
+      notifications.show({
+        icon: <IconCircleDashedCheck />,
+        message: PlaylistNotifications.CREATED,
+        color: "teal",
+      });
     } catch {
       notifications.show({
         icon: <IconBug />,
@@ -34,11 +43,6 @@ export function CreatePlaylist({ isOpen, onClose }: Props) {
       });
     } finally {
       setIsLoading(false);
-      notifications.show({
-        icon: <IconCircleDashedCheck />,
-        message: PlaylistNotifications.CREATED,
-        color: "teal",
-      });
     }
   }
 

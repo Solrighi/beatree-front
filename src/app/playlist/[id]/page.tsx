@@ -30,13 +30,21 @@ export default function PlaylistPage({
   async function handleSubmit(updatedPlaylist: Playlist) {
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:3000/playlists/${playlistId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedPlaylist),
-      });
+      const response = await fetch(
+        `http://localhost:3000/playlists/${playlistId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedPlaylist),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
       router.back();
       notifications.show({
         icon: <IconEdit />,
@@ -58,13 +66,19 @@ export default function PlaylistPage({
   async function handleRemoveMusic(musicId: string) {
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:3000/playlists/${playlistId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ids: [musicId] }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/playlists/${playlistId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ids: [musicId] }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error();
+      }
       refetch();
       notifications.show({
         icon: <IconCircleDashedMinus />,
