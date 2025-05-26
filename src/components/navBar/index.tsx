@@ -19,7 +19,9 @@ const data = [
 ];
 
 export function Navbar() {
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [currentPath, setCurrentPath] = useState(
+    typeof window !== "undefined" ? window.location.pathname : ""
+  );
 
   const items = data.map((item, index) => (
     <NavLink
