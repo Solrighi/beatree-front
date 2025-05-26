@@ -18,12 +18,25 @@ export function MainLayout({ children }: PropsWithChildren) {
       }}
       padding="md"
     >
-      <AppShell.Header>
+      <AppShell.Header
+        style={{
+          backgroundImage: `url(/beatree.png)`,
+          backgroundPosition: "center",
+          backgroundSize: "contain", // equivalente ao objectFit="contain"
+          backgroundRepeat: "no-repeat", // para não repetir a imagem
+        }}
+      >
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-        <div>Logo</div>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar
+        p="md"
+        style={{
+          backgroundImage: `url(/tree.png)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <Navbar />
       </AppShell.Navbar>
 

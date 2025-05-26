@@ -1,31 +1,38 @@
-import { useState } from "react";
-import { IconChevronRight, IconHome, IconLibrary } from "@tabler/icons-react";
-import { NavLink, NavLinkProps } from "@mantine/core";
+"use client";
 
-const data: NavLinkProps[] = [
+import { IconChevronRight, IconHome, IconLibrary } from "@tabler/icons-react";
+import { NavLink } from "@mantine/core";
+import Link from "next/link";
+import { useState } from "react";
+
+const data = [
   {
     label: "Inicio",
     leftSection: <IconHome size={16} stroke={1.5} />,
+    href: "/",
   },
   {
     label: "Biblioteca",
     leftSection: <IconLibrary size={16} stroke={1.5} />,
+    href: "/library",
   },
 ];
 
 export function Navbar() {
-  const [active, setActive] = useState(0);
+  const [currentPath, setCurrentPath] = useState(
+    typeof window !== "undefined" ? window.location.pathname : ""
+  );
 
   const items = data.map((item, index) => (
     <NavLink
+      component={Link}
       {...item}
-      href="#required-for-focus"
       key={index}
-      active={index === active}
+      active={item.href === currentPath}
       label={item.label}
-      onClick={() => setActive(index)}
       color="violet"
       rightSection={<IconChevronRight size={16} stroke={1.5} />}
+      onClick={() => setCurrentPath(item.href)}
     />
   ));
 
