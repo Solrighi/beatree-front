@@ -3,7 +3,7 @@
 import { IconChevronRight, IconHome, IconLibrary } from "@tabler/icons-react";
 import { NavLink } from "@mantine/core";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const data = [
   {
@@ -19,9 +19,7 @@ const data = [
 ];
 
 export function Navbar() {
-  const [currentPath, setCurrentPath] = useState(
-    typeof window !== "undefined" ? window.location.pathname : ""
-  );
+  const currentPath = usePathname();
 
   const items = data.map((item, index) => (
     <NavLink
@@ -32,7 +30,6 @@ export function Navbar() {
       label={item.label}
       color="violet"
       rightSection={<IconChevronRight size={16} stroke={1.5} />}
-      onClick={() => setCurrentPath(item.href)}
     />
   ));
 
