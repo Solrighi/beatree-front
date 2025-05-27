@@ -2,7 +2,7 @@
 # Beatree Frontend
 
 ## Descrição
-O Beatree é um projeto de streaming de música com foco no gerenciamento de playlists.
+O Beatree é um projeto de streaming de música com foco no gerenciamento de playlists.O beatree-frontend é o front do projeto Beatree, é a interface da qual o usuário tem acesso para utilizar o projeto.
 
 ## Índice
 - [Recursos e Funcionalidades](#recursos-e-funcionalidades)
@@ -10,7 +10,6 @@ O Beatree é um projeto de streaming de música com foco no gerenciamento de pla
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Instalação e Configuração](#instalação-e-configuração)
 - [Como Contribuir](#como-contribuir)
-- [Agradecimentos](#agradecimentos)
 
 ## Recursos e Funcionalidades
 - Gerenciamento de playlists.
